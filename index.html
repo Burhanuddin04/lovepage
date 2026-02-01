@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hussain & Aamena | Forever</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose-primary: #ff718b;
+        --champagne-bg: #fff9f8;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--champagne-bg);
+        color: #4c0519;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      .font-serif {
+        font-family: "Playfair Display", serif;
+      }
+      .font-love {
+        font-family: "Dancing Script", cursive;
+      }
+
+      /* Petal Animation */
+      .petal {
+        position: fixed;
+        top: -10%;
+        pointer-events: none;
+        z-index: 10;
+        animation: fall linear infinite;
+        color: rgba(255, 113, 139, 0.2);
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+        }
+      }
+
+      /* Glassmorphism */
+      .glass {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 113, 139, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.05);
+      }
+
+      /* Heart Pulse */
+      .heart-beat {
+        animation: heartBeat 1.5s infinite;
+      }
+      @keyframes heartBeat {
+        0% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.1);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.1);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+
+      .hidden-section {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Audio Element -->
+    <audio id="loveAudio" loop>
+      <source
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Entry Screen -->
+    <div
+      id="entryScreen"
+      class="fixed inset-0 z-[100] bg-[#FFF9F8] flex flex-col items-center justify-center text-center p-6 transition-opacity duration-1000"
+    >
+      <div class="relative mb-12">
+        <div
+          class="absolute inset-0 bg-rose-200 blur-3xl rounded-full animate-pulse opacity-50"
+        ></div>
+        <button
+          onclick="startJourney()"
+          class="relative z-10 w-32 h-32 bg-rose-500 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95 group"
+        >
+          <i
+            data-lucide="heart"
+            class="text-white w-14 h-14 fill-current heart-beat"
+          ></i>
+        </button>
+      </div>
+      <h1 class="text-3xl font-serif text-rose-900 mb-2">Hussain & Aamena</h1>
+      <p
+        class="text-rose-400 font-medium tracking-widest uppercase text-[10px] animate-pulse"
+      >
+        Touch to enter our world
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div
+      id="mainContent"
+      class="hidden-section opacity-0 transition-opacity duration-1000"
+    >
+      <!-- Mute Toggle -->
+      <button
+        onclick="toggleAudio()"
+        class="fixed top-6 right-6 z-[60] p-3 glass rounded-full text-rose-500 shadow-md"
+      >
+        <i id="audioIcon" data-lucide="volume-2"></i>
+      </button>
+
+      <!-- Hero Section -->
+      <section
+        class="h-screen flex flex-col items-center justify-center px-6 text-center relative"
+      >
+        <div class="space-y-4">
+          <i data-lucide="sparkles" class="text-rose-300 mx-auto w-8 h-8"></i>
+          <h1
+            class="text-5xl md:text-8xl font-serif text-rose-900 mb-2 leading-tight"
+          >
+            Hussain <br />
+            <span class="font-love text-rose-500 text-6xl">&</span> <br />
+            Aamena
+          </h1>
+          <p class="font-love text-2xl text-rose-400">
+            Our Story, Hand in Hand
+          </p>
+        </div>
+
+        <!-- Counter -->
+        <div class="flex gap-4 mt-12">
+          <div class="glass p-4 min-w-[80px] rounded-3xl">
+            <span id="days" class="text-2xl font-bold text-rose-500 block"
+              >0</span
+            >
+            <span class="text-[9px] uppercase font-bold text-rose-300"
+              >Days</span
+            >
+          </div>
+          <div class="glass p-4 min-w-[80px] rounded-3xl">
+            <span id="hours" class="text-2xl font-bold text-rose-500 block"
+              >0</span
+            >
+            <span class="text-[9px] uppercase font-bold text-rose-300"
+              >Hrs</span
+            >
+          </div>
+          <div class="glass p-4 min-w-[80px] rounded-3xl">
+            <span id="mins" class="text-2xl font-bold text-rose-500 block"
+              >0</span
+            >
+            <span class="text-[9px] uppercase font-bold text-rose-300"
+              >Mins</span
+            >
+          </div>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce text-rose-200">
+          <i data-lucide="chevron-down"></i>
+        </div>
+      </section>
+
+      <!-- The Vibes -->
+      <section class="py-24 px-6 max-w-lg mx-auto">
+        <div class="text-center mb-16">
+          <i
+            data-lucide="smile"
+            class="text-rose-400 mx-auto w-10 h-10 mb-4"
+          ></i>
+          <h2 class="text-4xl font-serif text-rose-950">Why It's You</h2>
+        </div>
+
+        <div class="space-y-6">
+          <div
+            class="p-8 rounded-[2rem] bg-rose-50/50 border border-rose-100 flex gap-6 items-start shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="bg-white p-3 rounded-2xl shadow-sm">
+              <i data-lucide="coffee" class="text-rose-500"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-serif mb-1">Morning Calm</h3>
+              <p class="text-rose-400 text-sm leading-relaxed">
+                You're the peace I feel before the world gets loud.
+              </p>
+            </div>
+          </div>
+          <div
+            class="p-8 rounded-[2rem] bg-orange-50/50 border border-orange-100 flex gap-6 items-start shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="bg-white p-3 rounded-2xl shadow-sm">
+              <i data-lucide="map-pin" class="text-orange-500"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-serif mb-1">My Safe Space</h3>
+              <p class="text-rose-400 text-sm leading-relaxed">
+                In your arms, I have finally found my permanent address.
+              </p>
+            </div>
+          </div>
+          <div
+            class="p-8 rounded-[2rem] bg-indigo-50/50 border border-indigo-100 flex gap-6 items-start shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="bg-white p-3 rounded-2xl shadow-sm">
+              <i data-lucide="star" class="text-indigo-500"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-serif mb-1">Our Universe</h3>
+              <p class="text-rose-400 text-sm leading-relaxed">
+                We created a galaxy out of simple laughs and shared coffee.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section class="py-24 px-6">
+        <div class="flex items-center justify-between mb-12">
+          <h2 class="text-3xl font-serif">Frames of Us</h2>
+          <i data-lucide="camera" class="text-rose-300"></i>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <img
+              src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?q=80&w=800"
+              class="rounded-[2rem] shadow-lg border-8 border-white -rotate-2"
+              alt="US"
+            />
+            <div
+              class="glass p-6 rounded-3xl italic text-xs text-rose-700 leading-relaxed"
+            >
+              "I love you not only for who you are, but for who I am when I am
+              with you."
+            </div>
+          </div>
+          <div class="space-y-4 mt-12">
+            <img
+              src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=800"
+              class="rounded-[2rem] shadow-lg border-8 border-white rotate-2"
+              alt="US"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=800"
+              class="rounded-[2rem] shadow-lg border-8 border-white -rotate-1"
+              alt="US"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Proposal Section -->
+      <section class="py-32 px-6 text-center">
+        <div id="proposalInitial" class="space-y-8">
+          <i
+            data-lucide="hand-heart"
+            class="text-rose-500 w-12 h-12 mx-auto"
+          ></i>
+          <h2 class="text-4xl font-serif text-rose-950 leading-tight">
+            Aamena, my queen...
+          </h2>
+          <p class="font-love text-2xl text-rose-400">
+            Will you be my forever and a day?
+          </p>
+          <button
+            onclick="acceptProposal()"
+            class="bg-rose-500 text-white px-12 py-5 rounded-full font-bold shadow-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-[0.2em] text-sm"
+          >
+            Yes, Hussain! 💍
+          </button>
+        </div>
+        <div id="proposalSuccess" class="hidden-section space-y-6">
+          <div class="relative inline-block">
+            <div
+              class="absolute inset-0 bg-rose-300 blur-2xl rounded-full animate-ping opacity-30"
+            ></div>
+            <i
+              data-lucide="heart"
+              class="text-rose-500 w-24 h-24 fill-current relative z-10"
+            ></i>
+          </div>
+          <h2 class="text-5xl font-love text-rose-600">Locked in Forever!</h2>
+          <p class="text-rose-900 font-medium">
+            I will love you until the stars go dark.
+          </p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-16 text-center border-t border-rose-100/50">
+        <p
+          class="text-[10px] text-rose-300 uppercase tracking-[0.6em] font-bold"
+        >
+          Made with love by AAVKAR
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      // Audio Logic
+      const audio = document.getElementById("loveAudio");
+      const audioIcon = document.getElementById("audioIcon");
+      let isMuted = false;
+
+      function startJourney() {
+        document.getElementById("entryScreen").classList.add("opacity-0");
+        setTimeout(() => {
+          document.getElementById("entryScreen").style.display = "none";
+          document
+            .getElementById("mainContent")
+            .classList.remove("hidden-section");
+          setTimeout(() => {
+            document.getElementById("mainContent").classList.add("opacity-100");
+            audio.play();
+          }, 100);
+        }, 1000);
+        createPetals();
+      }
+
+      function toggleAudio() {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        audioIcon.setAttribute(
+          "data-lucide",
+          isMuted ? "volume-x" : "volume-2",
+        );
+        lucide.createIcons();
+      }
+
+      // Proposal Logic
+      function acceptProposal() {
+        document
+          .getElementById("proposalInitial")
+          .classList.add("hidden-section");
+        document
+          .getElementById("proposalSuccess")
+          .classList.remove("hidden-section");
+        // Add extra heart burst effect if desired
+      }
+
+      // Counter Logic
+      const startDate = new Date("2025-12-01T00:00:00");
+      function updateCounter() {
+        const now = new Date();
+        const diff = now - startDate;
+        document.getElementById("days").innerText = Math.floor(
+          diff / (1000 * 60 * 60 * 24),
+        );
+        document.getElementById("hours").innerText = Math.floor(
+          (diff / (1000 * 60 * 60)) % 24,
+        );
+        document.getElementById("mins").innerText = Math.floor(
+          (diff / 1000 / 60) % 60,
+        );
+      }
+      setInterval(updateCounter, 60000);
+      updateCounter();
+
+      // Petal Creation
+      function createPetals() {
+        const container = document.body;
+        for (let i = 0; i < 20; i++) {
+          const petal = document.createElement("div");
+          petal.className = "petal";
+          petal.innerHTML = "❤";
+          petal.style.left = Math.random() * 100 + "%";
+          petal.style.fontSize = Math.random() * 15 + 10 + "px";
+          petal.style.animationDuration = Math.random() * 5 + 5 + "s";
+          petal.style.animationDelay = Math.random() * 5 + "s";
+          container.appendChild(petal);
+        }
+      }
+    </script>
+  </body>
+</html>
